@@ -1,0 +1,8 @@
+{
+  "name": "plm-publish",
+  "description": "把 Notion 頁面上稿到 plainlaw.me — 自動偵測整期期刊、單篇典藏文章或作者頁,先預覽再確認才寫入。",
+  "version": "1.0.0",
+  "author": {
+    "name": "Plain Law (法律白話文運動)"
+  }
+}

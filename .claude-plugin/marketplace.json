@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "plainlaw",
+  "version": "1.0.0",
+  "description": "法律白話文運動 — 編輯上稿工具市集",
+  "owner": {
+    "name": "Plain Law (法律白話文運動)"
+  },
+  "plugins": [
+    {
+      "name": "plm-publish",
+      "description": "把 Notion 頁面上稿到 plainlaw.me — 自動偵測整期期刊、單篇典藏文章或作者頁,先預覽再確認才寫入。",
+      "version": "1.0.0",
+      "source": "./plugins/plm-publish",
+      "category": "productivity"
+    }
+  ]
+}
