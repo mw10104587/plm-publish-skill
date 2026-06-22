@@ -219,6 +219,14 @@ outcomes by `ok` / `blockers` / `warnings`:
   2. For editions with one bad article: set that article's
      `Status = archived` in Notion to pull it out of this publish.
 
+**When relaying any 作者-related warning** (沒有指定作者 / 作者不在 Authors DB),
+always render the 作者群 DB as a **clickable Markdown link** so the editor can jump
+straight there to add or fix the author row — e.g.
+`👉 [作者群 Notion DB](https://app.notion.com/p/plainlaw/4f3294d5c79e4e60a29b49687b875fe3?v=e595a1ffdaac4ec5ab929a502275bcb3)`.
+(The raw script stdout can't be clickable; the link must come from your own
+relayed message.) Also remind them that an article with no author publishes
+fine — its byline just shows the brand name「法律白話文運動」instead of a person.
+
 **A4.** (placeholder — gate 2 confirmation handled inline in A3.)
 
 **A5. PUBLISH (write).**
