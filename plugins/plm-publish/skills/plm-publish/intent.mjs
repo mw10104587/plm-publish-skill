@@ -1,4 +1,4 @@
-// Pure-JS intent classifier for /plainlaw-publish.
+// Pure-JS intent classifier for /plm-publish.
 //
 // Lives here (not in lib/) so the editor's install bundle is self-contained:
 // run.mjs imports it via relative path, and the bundle just zips this

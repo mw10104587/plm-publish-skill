@@ -1,12 +1,9 @@
 ---
-name: plainlaw-publish
+name: plm-publish
 description: |
-  Publish a Notion page to plainlaw.me. The pipeline auto-detects whether
-  the page is a whole edition (parent page with child article pages
-  underneath) or a single article. Use when the user wants to "publish",
-  "上稿", "ingest", "上線", "上 plainlaw", "publish edition" /
-  "publish this article". Always go through this skill — never curl
-  /api/ingest directly; the skill handles ID extraction and bearer auth.
+  期刊範本: 創立新期刊號以及五篇空的文章，
+  [Notion_Link] 自動偵測應該更新期刊、作者或者單篇文章。
+
 allowed-tools:
   - Bash
   - AskUserQuestion
@@ -18,10 +15,9 @@ triggers:
   - publish this notion page
   - publish this article
   - 上 plainlaw
-  - ingest notion
 ---
 
-# /plainlaw-publish
+# /plm-publish
 
 Publish OR scaffold via plainlaw. ONE input — a Notion URL **or** a
 template keyword — and the wrapper dispatches:
@@ -82,8 +78,8 @@ and reuse the printed path (`$RUN`) in every command below. Also confirm the
 publish key is set. 一次解析腳本路徑 + 確認金鑰,之後每個指令都用同一個 `$RUN`。
 
 ```bash
-RUN=$(ls ~/.claude/skills/plainlaw-publish/run.mjs 2>/dev/null \
-  || find ~/.claude/plugins/cache -path '*/skills/plainlaw-publish/run.mjs' 2>/dev/null | head -1)
+RUN=$(ls ~/.claude/skills/plm-publish/run.mjs 2>/dev/null \
+  || find ~/.claude/plugins/cache -path '*/skills/plm-publish/run.mjs' 2>/dev/null | head -1)
 test -n "$RUN"             && echo "RUN=$RUN" || echo "MISSING_SKILL"
 test -n "$PLAINLAW_BEARER" && echo "BEARER_OK" || echo "MISSING_BEARER"
 ```
@@ -91,7 +87,7 @@ test -n "$PLAINLAW_BEARER" && echo "BEARER_OK" || echo "MISSING_BEARER"
 Read the output and branch:
 
 - **`MISSING_SKILL`** (no path found): the skill isn't installed. Tell the
-  editor _"我這邊還沒看到 plainlaw-publish 的安裝。請先請 Chi-An 給您安裝
+  editor _"我這邊還沒看到 plm-publish 的安裝。請先請 Chi-An 給您安裝
   連結,照著把工具裝好後再回來。"_ and stop.
 - **`MISSING_BEARER`** ($RUN found but no key): the script is installed but the
   publish key isn't set in this shell. Offer to set it up **without ever putting
@@ -111,13 +107,13 @@ the file is missing.
 
 ### 1. Classify the editor's input
 
-The editor's argument (after `/plainlaw-publish`) falls into one of:
+The editor's argument (after `/plm-publish`) falls into one of:
 
 | Input shape                                                                                            | Intent mode                              | What to do                                |
 | ------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ----------------------------------------- |
 | Notion URL or 32-hex page id (with or without a trailing _known_ verb like `上稿` / `publish`)         | `publish, hasUrl:true`                   | Go to **Publish path** (§A)               |
 | Notion URL + an _unrecognized_ trailing word (e.g. `<url> draft`)                                      | `publish-unclear`                        | **Confirm intent** (§B3) before any write |
-| Bare publish verb only: `上稿`, `上傳`, `上線`, `發布`, `publish`, `ingest`                            | `publish, hasUrl:false`                  | **Ask for URL** (§B1), then jump into §A  |
+| Bare publish verb only: `上稿`, `上傳`, `上線`, `發布`, `publish`                            | `publish, hasUrl:false`                  | **Ask for URL** (§B1), then jump into §A  |
 | Scaffold keyword: `期刊範本`, `新刊`, `文章範本`, `典藏文章`, `create edition`, `create article`, etc. | `scaffold-edition` or `scaffold-article` | Go to **Scaffold path** (§C)              |
 | Empty (no arg)                                                                                         | `empty`                                  | **Greet and ask** (§B2), then dispatch    |
 | Anything else (random text, unrecognized phrase)                                                       | `ambiguous`                              | **Ask to clarify** (§B2), then dispatch   |
@@ -314,7 +310,7 @@ When the editor responds with a URL, jump into §A1.
 
 **B2. Empty or ambiguous input.**
 
-The editor typed `/plainlaw-publish` with no arg, or typed something
+The editor typed `/plm-publish` with no arg, or typed something
 unrecognized (e.g. `春節`). Ask the editor what they want with
 `AskUserQuestion`:
 
@@ -433,5 +429,5 @@ Skip everything above; export `PLAINLAW_BEARER` in your shell, set
 directly:
 
 ```bash
-node .claude/skills/plainlaw-publish/run.mjs "$NOTION_URL"
+node .claude/skills/plm-publish/run.mjs "$NOTION_URL"
 ```

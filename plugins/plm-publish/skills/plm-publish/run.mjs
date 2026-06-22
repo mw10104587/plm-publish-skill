@@ -1,5 +1,5 @@
-// /plainlaw-publish skill wrapper — invoked by SKILL.md via the launcher
-// (~/.claude/skills/plainlaw-publish/run.sh) on editor machines, or directly
+// /plm-publish skill wrapper — invoked by SKILL.md via the launcher
+// (~/.claude/skills/plm-publish/run.sh) on editor machines, or directly
 // via `node` for Chi-An's local dev.
 //
 // Usage:
@@ -58,7 +58,7 @@ if (subCommand === "classify") {
 const secret = process.env.PLAINLAW_BEARER;
 if (!secret) {
   console.error(
-    "找不到 bearer。請確認您是透過 plainlaw-publish 安裝包安裝此技能。\n" +
+    "找不到 bearer。請確認您是透過 plm-publish 安裝包安裝此技能。\n" +
       "(PLAINLAW_BEARER environment variable is not set. The launcher script " +
       "should set this; ask Chi-An for an installation bundle if needed.)",
   );
@@ -119,7 +119,7 @@ if (intent.mode === "ambiguous") {
   console.error(
     `💥 不認得這個輸入:「${intent.input}」\n` +
       `預期是 Notion URL、或關鍵字(例:期刊範本 / 文章範本 / 上稿)。\n` +
-      `若您是透過 /plainlaw-publish 呼叫,請讓 skill 透過對話補上完整意圖。`,
+      `若您是透過 /plm-publish 呼叫,請讓 skill 透過對話補上完整意圖。`,
   );
   process.exit(2);
 }
@@ -134,7 +134,7 @@ if (intent.mode === "publish-unclear") {
     `💥 偵測到 Notion 連結,但後面多了不認得的字:「${intent.extra}」\n` +
       `目前沒有對應的發布選項(草稿狀態請在 Notion 的 Status 欄位設定,` +
       `?draft=1 只是網站預覽,不是上稿選項)。\n` +
-      `若透過 /plainlaw-publish 呼叫,請讓 skill 與您確認意圖後再發布。`,
+      `若透過 /plm-publish 呼叫,請讓 skill 與您確認意圖後再發布。`,
   );
   process.exit(2);
 }
